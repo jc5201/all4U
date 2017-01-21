@@ -8,10 +8,10 @@
     <com.sababado.circularview.CircularView
         android:id="@+id/circular_view"
         android:background="#ccc"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:textSize="24sp"
         app:centerBackgroundColor="#33b5e5"
+        app:centerDrawable="@drawable/center_bg"
         app:markerStartingPoint="top"
         app:editMode_markerCount="5"
         app:fitToCircle="true"

@@ -1,7 +1,6 @@
 package com.example.jaechang.all4u;
 
-import com.sababado.circularview.Marker;
-import com.sababado.circularview.SimpleCircularViewAdapter;
+import com.sababado.circularview.*;
 
 import static com.example.jaechang.all4u.R.drawable.center_bg;
 
