@@ -20,4 +20,11 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="LoadingTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">@drawable/splash_capture</item>
+    </style>
+
+    <style name="MenuTheme" parent="@android:style/Theme.Light.NoTitleBar">
+    </style>
+
 </resources>
