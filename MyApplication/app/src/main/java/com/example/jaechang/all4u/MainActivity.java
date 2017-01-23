@@ -4,6 +4,8 @@ package com.example.jaechang.all4u;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,7 +27,27 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        setCustomActionBar();
+        //setCustomActionBar();
+        addActionBarTab();
+    }
+
+    void addActionBarTab(){
+        ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        ActionBar.Tab tab = null;
+        tab = actionBar.newTab();
+        tab.setTabListener(listener);
+        actionBar.addTab(tab);
+
+        tab = actionBar.newTab();
+        tab.setTabListener(listener);
+        actionBar.addTab(tab);
+
+        tab = actionBar.newTab();
+        tab.setTabListener(listener);
+        actionBar.addTab(tab);
     }
 
     void setCustomActionBar(){
@@ -44,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         //Toolbar parent = (Toolbar) mCustomView.getParent(); // first get parent toolbar of current action bar
         //parent.setContentInsetsAbsolute(0, 0);              // set padding programmatically to 0dp
 
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.argb(255,255,255,255)));
+        //actionBar.setBackgroundDrawable(new ColorDrawable(Color.argb(255,255,255,255)));
 
         // Set actionbar layout layoutparams
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
