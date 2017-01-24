@@ -1,7 +1,12 @@
 package com.example.jaechang.all4u;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -16,39 +21,42 @@ import java.util.List;
  * Created by Jaechang on 2017-01-24.
  */
 
-public class IntroduceMainActivity extends Activity {
+public class IntroduceMainActivity extends Fragment {
     private List<String> departmentList = new ArrayList<>();
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_introduce_main);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_introduce_main, null);
         LoadDB();
-        setArticle();
+        setArticle(view);
+        return view;
     }
 
     private void LoadDB(){
-        DBHelper dbHelper = new DBHelper(getApplicationContext());
+        DBHelper dbHelper = new DBHelper(getActivity());
         departmentList = dbHelper.getDepartment();
     }
 
-    private void setArticle(){
-        LinearLayout layout = (LinearLayout)findViewById(R.id.introduce_layout);
+    private void setArticle(View view){
+        DBHelper dbHelper = new DBHelper(getActivity());
+
+        LinearLayout layout = (LinearLayout)view.findViewById(R.id.introduce_layout);
         layout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setBackgroundColor(Color.WHITE);
         for(int i=0;i<departmentList.size();i++){
-            FrameLayout frameLayout = new FrameLayout(this);
-            frameLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            frameLayout.setPadding(20, 20,20,20);
-
-            LinearLayout linearLayout = new LinearLayout(this);
+            LinearLayout linearLayout = new LinearLayout(getActivity());
+            linearLayout.setPadding(50,50,50,50);
             linearLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            linearLayout.setOrientation(LinearLayout.VERTICAL);
+            linearLayout.setGravity(Gravity.RIGHT);
 
-            ImageButton mainImageButton = new ImageButton(this);
+            ImageButton mainImageButton = new ImageButton(getActivity());
             mainImageButton.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            String uri = "@drawable/" + departmentList.get(i) + "0";
-            int imageResource = getApplicationContext().getResources().getIdentifier(uri, "drawabale", getApplicationContext().getPackageName());
-            mainImageButton.setImageDrawable(getApplicationContext().getResources().getDrawable(imageResource));
+            String uri = "@drawable/" + dbHelper.getContentsPath(departmentList.get(i)) + "_" + Integer.toString(0);
+            int imageResource = getActivity().getResources().getIdentifier(uri, "drawabale", getActivity().getPackageName());
+            mainImageButton.setImageDrawable(getActivity().getResources().getDrawable(imageResource));
             mainImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -58,14 +66,14 @@ public class IntroduceMainActivity extends Activity {
 
             linearLayout.addView(mainImageButton);
 
-            ImageButton likeImageButton = new ImageButton(this);
-            likeImageButton.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            ImageButton likeImageButton = new ImageButton(getActivity());
+            likeImageButton.setLayoutParams(new FrameLayout.LayoutParams(200, ViewGroup.LayoutParams.MATCH_PARENT));
+            likeImageButton.setBackgroundColor(Color.WHITE);
             likeImageButton.setImageResource(R.drawable.ic_like);
             //여기 뭔가 추가해야
 
             linearLayout.addView(likeImageButton);
-            frameLayout.addView(linearLayout);
-            layout.addView(frameLayout);
+            layout.addView(linearLayout);
         }
     }
 }

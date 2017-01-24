@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 import android.util.Log;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,6 +31,7 @@ public class DBHelper extends SQLiteOpenHelper {
         super(context, DB_NAME, null, 1);
         DB_PATH = context.getApplicationInfo().dataDir + "/databases/";
         this.context = context;
+        create();
     }
 
 
@@ -37,7 +39,7 @@ public class DBHelper extends SQLiteOpenHelper {
         List<String> depart = new ArrayList<>();
         try{
             String query = "SELECT name FROM " + TABLE_NAME + ";";
-            SQLiteDatabase db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READONLY);
+            SQLiteDatabase db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READWRITE);
             Cursor cursor = db.rawQuery(query, null);
 
             while(cursor.moveToNext()){
@@ -49,6 +51,23 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
         return depart;
+    }
+
+    public String getContentsPath(String dept){
+        String path = "";
+        try{
+            String query = "SELECT path FROM " + TABLE_NAME + " WHERE name = \"" + dept + "\";";
+            SQLiteDatabase db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READWRITE);
+            Cursor cursor = db.rawQuery(query, null);
+
+            if(cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                path = cursor.getString(0);
+            }
+        }catch (Exception e){
+            Log.d("DB", e.getMessage());
+        }
+        return path;
     }
 
 
@@ -70,7 +89,7 @@ public class DBHelper extends SQLiteOpenHelper {
             String path = DB_PATH + DB_NAME;
             checkDB = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
         }catch(SQLiteException e){
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         if(checkDB != null){
             checkDB.close();
@@ -81,18 +100,28 @@ public class DBHelper extends SQLiteOpenHelper {
     private void copyDataBase() throws IOException{
         InputStream myInput = context.getAssets().open(DB_NAME);
 
-        String outFileName = DB_PATH + DB_NAME;
-
-        OutputStream myOutput = new FileOutputStream(outFileName);
-
-        byte[] buffer = new byte[1024];
-        int length;
-        while((length = myInput.read(buffer))>0){
-            myOutput.write(buffer,0,length);
+        String outFileName = DB_PATH;
+        File dir = new File(outFileName);
+        outFileName += DB_NAME;
+        File file = new File(outFileName);
+        if(!dir.exists()){
+            dir.mkdirs();
         }
+        if(!file.exists()) {
 
-        myOutput.flush();
-        myOutput.close();
+            file.createNewFile();
+            FileOutputStream myOutput = new FileOutputStream(outFileName);
+
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = myInput.read(buffer)) > 0) {
+                myOutput.write(buffer, 0, length);
+            }
+
+            myOutput.flush();
+            myOutput.close();
+        }
         myInput.close();
     }
 

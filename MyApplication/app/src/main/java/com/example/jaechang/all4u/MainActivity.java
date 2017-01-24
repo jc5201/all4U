@@ -2,10 +2,12 @@ package com.example.jaechang.all4u;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,9 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -40,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         ActionBar.Tab tab = null;
         tab = actionBar.newTab();
         tab.setIcon(R.drawable.ic_action_find);
-        tab.setTabListener(listener);
+        tab.setTabListener(new TabTestListener<IntroduceMainActivity>(this, "1", IntroduceMainActivity.class));
         actionBar.addTab(tab);
 
         tab = actionBar.newTab();
@@ -69,28 +74,81 @@ public class MainActivity extends AppCompatActivity {
 
         //actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-/*
-        // Set custom view layout
-        View mCustomView = LayoutInflater.from(this).inflate(R.layout.actionbar_main, null);
-        actionBar.setCustomView(mCustomView);
+        //actionBar.setDisplayShowTitleEnabled(false);
+        //actionBar.setTitle("대학학과찾기");
+        /*
+                // Set custom view layout
+                View mCustomView = LayoutInflater.from(this).inflate(R.layout.actionbar_main, null);
+                actionBar.setCustomView(mCustomView);
 
 
-        // Set no padding both side
-        //Toolbar parent = (Toolbar) mCustomView.getParent(); // first get parent toolbar of current action bar
-        //parent.setContentInsetsAbsolute(0, 0);              // set padding programmatically to 0dp
+                // Set no padding both side
+                //Toolbar parent = (Toolbar) mCustomView.getParent(); // first get parent toolbar of current action bar
+                //parent.setContentInsetsAbsolute(0, 0);              // set padding programmatically to 0dp
 
-        //actionBar.setBackgroundDrawable(new ColorDrawable(Color.argb(255,255,255,255)));
+                //actionBar.setBackgroundDrawable(new ColorDrawable(Color.argb(255,255,255,255)));
 
-        // Set actionbar layout layoutparams
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
-        actionBar.setCustomView(mCustomView, params);*/
+                // Set actionbar layout layoutparams
+                ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
+                actionBar.setCustomView(mCustomView, params);*/
+    }
+
+    class TabTestListener<T extends Fragment> implements ActionBar.TabListener {
+        private Fragment mFragment;
+        private final Activity mActivity;
+        private final String mTag;
+        private final Class<T> mClass;
+
+        public TabTestListener(Activity activity, String tag, Class<T> clz)	 {
+            mActivity = activity;
+            mTag = tag;
+            mClass = clz;
+        }
+
+        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft)	 {
+            if (mFragment == null)
+            {
+                mFragment = Fragment.instantiate(mActivity, mClass.getName());
+                ft.add(android.R.id.content, mFragment, mTag);
+            } else {
+                ft.attach(mFragment);
+            }
+        }
+
+        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft)	 {
+            if (mFragment != null)
+            {
+                ft.detach(mFragment);
+            }
+        }
+
+        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft)	 {
+        }
     }
 
     ActionBar.TabListener listener = new ActionBar.TabListener() {
         @Override
         public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
             int position = tab.getPosition();
+            switch(position){
+                case 0:
+                    getSupportActionBar().setTitle("대학학과찾기");
+                    setContentView(R.layout.activity_introduce_main);
+                    break;
+                case 1:
+                    getSupportActionBar().setTitle("나에게 맞는 학과찾기");
+                    break;
+                case 2:
+                    getSupportActionBar().setTitle("공지사항");
+                    break;
+                case 3:
+                    getSupportActionBar().setTitle("문의사항");
+                    break;
+                case 4:
+                    getSupportActionBar().setTitle("마이페이지");
+                    setContentView(R.layout.activity_mypage);
+                    break;
+            }
         }
 
         @Override
