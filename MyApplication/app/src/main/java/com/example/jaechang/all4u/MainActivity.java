@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         tab = actionBar.newTab();
         tab.setIcon(R.drawable.ic_action_search);
-        tab.setTabListener(listener);
+        tab.setTabListener(new TabTestListener<SearchActivity>(this, "2", SearchActivity.class));
         actionBar.addTab(tab);
 
         tab = actionBar.newTab();
@@ -68,6 +68,48 @@ public class MainActivity extends AppCompatActivity {
         tab.setTabListener(listener);
         actionBar.addTab(tab);
     }
+
+    class TabTestListener<T extends Fragment> implements ActionBar.TabListener {
+        private Fragment mFragment;
+        private final Activity mActivity;
+        private final String mTag;
+        private final Class<T> mClass;
+
+        public TabTestListener(Activity activity, String tag, Class<T> clz)	 {
+            mActivity = activity;
+            mTag = tag;
+            mClass = clz;
+        }
+
+        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft)	 {
+            if (mFragment == null)
+            {
+                mFragment = Fragment.instantiate(mActivity, mClass.getName());
+                ft.add(android.R.id.content, mFragment, mTag);
+            } else {
+                ft.attach(mFragment);
+            }
+            switch(mTag){
+                case "1":
+                    getSupportActionBar().setTitle("대학학과찾기");
+                    break;
+                case "2":
+                    getSupportActionBar().setTitle("나에게 맞는 학과 찾기");
+                    break;
+            }
+        }
+
+        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft)	 {
+            if (mFragment != null)
+            {
+                ft.detach(mFragment);
+            }
+        }
+
+        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft)	 {
+        }
+    }
+
 
     void setCustomActionBar(){
         ActionBar actionBar = getSupportActionBar();
@@ -91,39 +133,6 @@ public class MainActivity extends AppCompatActivity {
                 // Set actionbar layout layoutparams
                 ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
                 actionBar.setCustomView(mCustomView, params);*/
-    }
-
-    class TabTestListener<T extends Fragment> implements ActionBar.TabListener {
-        private Fragment mFragment;
-        private final Activity mActivity;
-        private final String mTag;
-        private final Class<T> mClass;
-
-        public TabTestListener(Activity activity, String tag, Class<T> clz)	 {
-            mActivity = activity;
-            mTag = tag;
-            mClass = clz;
-        }
-
-        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft)	 {
-            if (mFragment == null)
-            {
-                mFragment = Fragment.instantiate(mActivity, mClass.getName());
-                ft.add(android.R.id.content, mFragment, mTag);
-            } else {
-                ft.attach(mFragment);
-            }
-        }
-
-        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft)	 {
-            if (mFragment != null)
-            {
-                ft.detach(mFragment);
-            }
-        }
-
-        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft)	 {
-        }
     }
 
     ActionBar.TabListener listener = new ActionBar.TabListener() {
