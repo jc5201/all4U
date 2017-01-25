@@ -46,6 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 String str = cursor.getString(0);
                 depart.add(str);
             }
+            db.close();
         }catch (Exception e){
             Log.d("DB", e.getMessage());
         }
@@ -64,6 +65,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 cursor.moveToFirst();
                 path = cursor.getString(0);
             }
+            db.close();
         }catch (Exception e){
             Log.d("DB", e.getMessage());
         }

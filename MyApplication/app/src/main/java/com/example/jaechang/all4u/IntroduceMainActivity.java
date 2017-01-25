@@ -23,6 +23,7 @@ import java.util.List;
 
 public class IntroduceMainActivity extends Fragment {
     private List<String> departmentList = new ArrayList<>();
+    private int tempInt;
 
     @Nullable
     @Override
@@ -40,6 +41,7 @@ public class IntroduceMainActivity extends Fragment {
 
     private void setArticle(View view){
         DBHelper dbHelper = new DBHelper(getActivity());
+        final UserDBHelper userDBHelper = new UserDBHelper(getActivity());
 
         LinearLayout layout = (LinearLayout)view.findViewById(R.id.introduce_layout);
         layout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -67,10 +69,32 @@ public class IntroduceMainActivity extends Fragment {
             linearLayout.addView(mainImageButton);
 
             ImageButton likeImageButton = new ImageButton(getActivity());
+            likeImageButton.setTag(i);
             likeImageButton.setLayoutParams(new FrameLayout.LayoutParams(200, ViewGroup.LayoutParams.MATCH_PARENT));
             likeImageButton.setBackgroundColor(Color.WHITE);
-            likeImageButton.setImageResource(R.drawable.ic_like);
-            //여기 뭔가 추가해야
+            if(userDBHelper.isLiked(departmentList.get(i)))
+                likeImageButton.setImageResource(R.drawable.ic_like_light);
+            else
+                likeImageButton.setImageResource(R.drawable.ic_like);
+
+            likeImageButton.setOnClickListener(new View.OnClickListener(){
+                int i;
+                ImageButton likeImageButton;
+                @Override
+                public void onClick(View v) {
+                    userDBHelper.setLike(departmentList.get(i));
+                    if(userDBHelper.isLiked(departmentList.get(i)))
+                        likeImageButton.setImageResource(R.drawable.ic_like_light);
+                    else
+                        likeImageButton.setImageResource(R.drawable.ic_like);
+                }
+
+                public View.OnClickListener init(int i, ImageButton likeImageButton){
+                    this.i = i;
+                    this.likeImageButton = likeImageButton;
+                    return this;
+                }
+            }.init(i, likeImageButton));
 
             linearLayout.addView(likeImageButton);
             layout.addView(linearLayout);
