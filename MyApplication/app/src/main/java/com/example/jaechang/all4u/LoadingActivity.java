@@ -21,7 +21,7 @@ public class LoadingActivity extends Activity {
         hd.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(getApplication(), MenuActivity.class));
+                startActivity(new Intent(getApplication(), MainActivity.class));
                 finish();
             }
         }, 3000);

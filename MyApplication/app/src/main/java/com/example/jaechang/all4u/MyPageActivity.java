@@ -1,6 +1,7 @@
 package com.example.jaechang.all4u;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,7 +19,7 @@ public class MyPageActivity extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_mypage, null);
-
+        view.setBackgroundColor(Color.WHITE);
         loadLiked(view);
 
         return view;
