@@ -1,13 +1,18 @@
 package com.example.jaechang.all4u;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageSwitcher;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 /**
  * Created by jaechang on 2017-01-27.
@@ -19,7 +24,10 @@ public class IntroduceArticleFragment extends Fragment {
     String depart;
     String path;
     int num;
-    int curnum;
+
+    int[] mResources;
+    CustomPagerAdapter customPagerAdapter;
+    ViewPager viewPager;
 
     @Nullable
     @Override
@@ -27,6 +35,7 @@ public class IntroduceArticleFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_introduce_article, container, false);
         view.setBackgroundColor(Color.WHITE);
 
+        depart = getArguments().getString("depart");
         create();
 
         return view;
@@ -37,29 +46,55 @@ public class IntroduceArticleFragment extends Fragment {
         path = dbHelper.getContentsPath(depart);
         num = dbHelper.getNum(depart);
 
-        ImageSwitcher imageSwitcher = (ImageSwitcher) view.findViewById(R.id.ImageSwitcher);
 
-        String uri = "@drawable/" + path + "_0";
-        int imageResource = getActivity().getResources().getIdentifier(uri, "drawabale", getActivity().getPackageName());
-        imageSwitcher.setImageDrawable(getActivity().getResources().getDrawable(imageResource));
+        mResources = new int[num];
+        for(int i=0;i<num;i++) {
+            String uri = "@drawable/" + path + "_" + Integer.toString(i);
+            int imageResource = getActivity().getResources().getIdentifier(uri, "drawabale", getActivity().getPackageName());
+            mResources[i] = imageResource;
+        }
 
-        curnum=0;
+        customPagerAdapter = new CustomPagerAdapter(getActivity());
+        viewPager = (ViewPager)view.findViewById(R.id.pager);
+        viewPager.setAdapter(customPagerAdapter);
+        viewPager.setOffscreenPageLimit(num);
 
-        view.setOnTouchListener(new OnSwipeTouchListener(getActivity()){
-            @Override
-            public void onSwipeRight() {
-                //이미지 전환
-            }
-
-            @Override
-            public void onSwipeLeft() {
-                super.onSwipeLeft();
-            }
-        });
     }
 
-    public IntroduceArticleFragment init(String str){
-        depart = str;
-        return this;
+    public class CustomPagerAdapter extends PagerAdapter {
+        Context mContext;
+        LayoutInflater mLayoutInflater;
+
+        public CustomPagerAdapter(Context context) {
+            mContext = context;
+            mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return mResources.length;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == ((LinearLayout) object);
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
+
+            ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            imageView.setImageResource(mResources[position]);
+
+            container.addView(itemView);
+
+            return itemView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((LinearLayout) object);
+        }
     }
 }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -50,34 +51,44 @@ public class IntroduceMainFragment extends Fragment {
         for(int i=0;i<departmentList.size();i++){
             LinearLayout linearLayout = new LinearLayout(getActivity());
             linearLayout.setPadding(50,50,50,50);
-            linearLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            linearLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            //linearLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, linearLayout.getMeasuredWidth()+700));
             linearLayout.setOrientation(LinearLayout.VERTICAL);
             linearLayout.setGravity(Gravity.RIGHT);
 
             ImageButton mainImageButton = new ImageButton(getActivity());
-            mainImageButton.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            mainImageButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            mainImageButton.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
             String uri = "@drawable/" + dbHelper.getContentsPath(departmentList.get(i)) + "_" + Integer.toString(0);
             int imageResource = getActivity().getResources().getIdentifier(uri, "drawabale", getActivity().getPackageName());
             mainImageButton.setImageDrawable(getActivity().getResources().getDrawable(imageResource));
 
-            tempInt = i;
             mainImageButton.setOnClickListener(new View.OnClickListener() {
+                int i;
                 @Override
                 public void onClick(View v) {
                     //컨텐츠 표시하도록 이동
                     FragmentTransaction fragT = getFragmentManager().beginTransaction();
-                    fragT.add(new IntroduceArticleFragment().init(departmentList.get(tempInt)), "article");
+                    Fragment fragment = Fragment.instantiate(getActivity(), IntroduceArticleFragment.class.getName());
+                    Bundle bundle = new Bundle(1);
+                    bundle.putString("depart",departmentList.get(i));
+                    fragment.setArguments(bundle);
+                    fragT.add(android.R.id.content, fragment, "article");
                     fragT.addToBackStack(null);
                     fragT.commit();
 
                 }
-            });
+                public View.OnClickListener init(int i){
+                    this.i=i;
+                    return this;
+                }
+            }.init(i));
 
             linearLayout.addView(mainImageButton);
 
             ImageButton likeImageButton = new ImageButton(getActivity());
-            likeImageButton.setTag(i);
             likeImageButton.setLayoutParams(new FrameLayout.LayoutParams(200, ViewGroup.LayoutParams.MATCH_PARENT));
+            likeImageButton.setTag(i);
             likeImageButton.setBackgroundColor(Color.WHITE);
             if(userDBHelper.isLiked(departmentList.get(i)))
                 likeImageButton.setImageResource(R.drawable.ic_like_light);
@@ -105,6 +116,8 @@ public class IntroduceMainFragment extends Fragment {
 
             linearLayout.addView(likeImageButton);
             layout.addView(linearLayout);
+
+
         }
     }
 }

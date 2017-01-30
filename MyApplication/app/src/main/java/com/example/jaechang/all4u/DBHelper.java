@@ -25,6 +25,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static String DB_NAME = "AllPoYou.db";
     private static String TABLE_NAME = "department";
 
+    private static Boolean flag = false;
+
     private final Context context;
 
     public DBHelper(Context context){
@@ -94,13 +96,16 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void create(){
 
-        if (!checkDataBase()) {
+        //if (!checkDataBase()) {
             try {
-                copyDataBase();
+                if(flag == false) {
+                    copyDataBase();
+                    flag = true;
+                }
             } catch (IOException e) {
                 throw new Error("Error copying database");
             }
-        }
+        //}
     }
 
     private boolean checkDataBase(){
@@ -127,7 +132,7 @@ public class DBHelper extends SQLiteOpenHelper {
         if(!dir.exists()){
             dir.mkdirs();
         }
-        if(!file.exists()) {
+        //if(!file.exists()) {
 
             file.createNewFile();
             FileOutputStream myOutput = new FileOutputStream(outFileName);
@@ -141,7 +146,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
             myOutput.flush();
             myOutput.close();
-        }
+        //}
         myInput.close();
     }
 
