@@ -72,6 +72,24 @@ public class DBHelper extends SQLiteOpenHelper {
         return path;
     }
 
+    public int getNum(String dept){
+        int num=0;
+        try{
+            String query = "SELECT length FROM " + TABLE_NAME + " WHERE name = \"" + dept + "\";";
+            SQLiteDatabase db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READWRITE);
+            Cursor cursor = db.rawQuery(query, null);
+
+            if(cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                num = cursor.getInt(0);
+            }
+            db.close();
+        }catch (Exception e){
+            Log.d("DB", e.getMessage());
+        }
+        return num;
+    }
+
 
 
     public void create(){

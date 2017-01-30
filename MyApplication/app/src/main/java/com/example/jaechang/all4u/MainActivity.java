@@ -1,25 +1,12 @@
 package com.example.jaechang.all4u;
 
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -45,12 +32,12 @@ public class MainActivity extends AppCompatActivity {
         ActionBar.Tab tab = null;
         tab = actionBar.newTab();
         tab.setIcon(R.drawable.ic_action_find);
-        tab.setTabListener(new TabTestListener<IntroduceMainActivity>(this, "1", IntroduceMainActivity.class));
+        tab.setTabListener(new TabTestListener<IntroduceMainFragment>(this, "1", IntroduceMainFragment.class));
         actionBar.addTab(tab);
 
         tab = actionBar.newTab();
         tab.setIcon(R.drawable.ic_action_search);
-        tab.setTabListener(new TabTestListener<SearchActivity>(this, "2", SearchActivity.class));
+        tab.setTabListener(new TabTestListener<SearchFragment>(this, "2", SearchFragment.class));
         actionBar.addTab(tab);
 
         tab = actionBar.newTab();
@@ -142,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
             switch(position){
                 case 0:
                     getSupportActionBar().setTitle("대학학과찾기");
-                    setContentView(R.layout.activity_introduce_main);
+                    setContentView(R.layout.fragment_introduce_main);
                     break;
                 case 1:
                     getSupportActionBar().setTitle("나에게 맞는 학과찾기");
@@ -155,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 4:
                     getSupportActionBar().setTitle("마이페이지");
-                    setContentView(R.layout.activity_mypage);
+                    setContentView(R.layout.fragment_mypage);
                     break;
             }
         }
