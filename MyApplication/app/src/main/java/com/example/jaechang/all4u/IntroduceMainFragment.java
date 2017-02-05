@@ -45,20 +45,18 @@ public class IntroduceMainFragment extends Fragment {
         final UserDBHelper userDBHelper = new UserDBHelper(getActivity());
 
         LinearLayout layout = (LinearLayout)view.findViewById(R.id.introduce_layout);
-        layout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setBackgroundColor(Color.WHITE);
         for(int i=0;i<departmentList.size();i++){
             LinearLayout linearLayout = new LinearLayout(getActivity());
             linearLayout.setPadding(50,50,50,50);
-            linearLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            //linearLayout.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, linearLayout.getMeasuredWidth()+700));
+            linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             linearLayout.setOrientation(LinearLayout.VERTICAL);
             linearLayout.setGravity(Gravity.RIGHT);
 
             ImageButton mainImageButton = new ImageButton(getActivity());
             mainImageButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            mainImageButton.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            mainImageButton.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1000));
             String uri = "@drawable/" + dbHelper.getContentsPath(departmentList.get(i)) + "_" + Integer.toString(0);
             int imageResource = getActivity().getResources().getIdentifier(uri, "drawabale", getActivity().getPackageName());
             mainImageButton.setImageDrawable(getActivity().getResources().getDrawable(imageResource));
