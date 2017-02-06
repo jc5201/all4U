@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         tab = actionBar.newTab();
         tab.setIcon(R.drawable.ic_action_search);
-        tab.setTabListener(new TabTestListener<SearchFragment>(this, "2", SearchFragment.class));
+        tab.setTabListener(new TabTestListener<SearchMainFragment>(this, "2", SearchMainFragment.class));
         actionBar.addTab(tab);
 
         tab = actionBar.newTab();
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         tab = actionBar.newTab();
         tab.setIcon(R.drawable.ic_action_user);
-        tab.setTabListener(listener);
+        tab.setTabListener(new TabTestListener<MyPageFragment>(this, "2", MyPageFragment.class));
         actionBar.addTab(tab);
     }
 

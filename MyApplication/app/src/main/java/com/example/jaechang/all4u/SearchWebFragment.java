@@ -13,12 +13,12 @@ import android.webkit.WebViewClient;
  * Created by Jaechang on 2017-01-26.
  */
 
-public class SearchFragment extends Fragment {
+public class SearchWebFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search, null);
+        View view = inflater.inflate(R.layout.fragment_search_web, null);
 
         WebView webView = (WebView)view.findViewById(R.id.worknetView);
         webView.setWebViewClient(new WebViewClient());

@@ -1,10 +1,9 @@
 package com.example.jaechang.all4u;
 
-import android.content.Intent;
 import android.graphics.Color;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,33 +17,31 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Jaechang on 2017-01-24.
- */
+public class MyPageLikedFragment extends Fragment {
 
-public class IntroduceMainFragment extends Fragment {
     private List<String> departmentList = new ArrayList<>();
-    private int tempInt;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_introduce_main, null);
-        LoadDB();
+        View view = inflater.inflate(R.layout.fragment_mypage_like, null);
+
+        load(view);
         setArticle(view);
         return view;
     }
 
-    private void LoadDB(){
-        DBHelper dbHelper = new DBHelper(getActivity());
-        departmentList = dbHelper.getDepartment();
+    void load(View view){
+        UserDBHelper userDB = new UserDBHelper(getActivity());
+        departmentList = userDB.getDepartment();
+        userDB.close();
     }
 
     private void setArticle(View view){
         DBHelper dbHelper = new DBHelper(getActivity());
         final UserDBHelper userDBHelper = new UserDBHelper(getActivity());
 
-        LinearLayout layout = (LinearLayout)view.findViewById(R.id.introduce_layout);
+        LinearLayout layout = (LinearLayout)view.findViewById(R.id.linearLayout_Mypage);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setBackgroundColor(Color.WHITE);
         for(int i=0;i<departmentList.size();i++){
