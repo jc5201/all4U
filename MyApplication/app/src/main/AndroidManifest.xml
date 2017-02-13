@@ -31,6 +31,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".IntroduceArticleActivity"
+            android:theme="@style/ArticleTheme"></activity>
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>

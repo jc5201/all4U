@@ -7,7 +7,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/background_light">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,15 +18,17 @@
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@android:drawable/toast_frame"
+                app:srcCompat="@drawable/button_search"
                 android:id="@+id/imageButton2"
                 android:padding="80dp"
-                android:scaleType="fitCenter" />
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:background="@android:color/background_light"/>
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/content_chem_4"
+                app:srcCompat="@drawable/search_inform"
                 android:id="@+id/imageView"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"/>

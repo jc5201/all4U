@@ -22,6 +22,10 @@
         <item name="android:windowBackground">@drawable/splash_capture</item>
     </style>
 
+    <style name="ArticleTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">@color/black_half</item>
+    </style>
+
     <style name="MenuTheme" parent="@android:style/Theme.Light.NoTitleBar">
     </style>
 

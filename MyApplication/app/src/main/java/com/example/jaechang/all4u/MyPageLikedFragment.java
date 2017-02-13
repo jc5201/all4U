@@ -53,6 +53,7 @@ public class MyPageLikedFragment extends Fragment {
 
             ImageButton mainImageButton = new ImageButton(getActivity());
             mainImageButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            mainImageButton.setBackgroundColor(Color.WHITE);
             mainImageButton.setAdjustViewBounds(true);
             mainImageButton.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             String uri = "@drawable/" + dbHelper.getContentsPath(departmentList.get(i)) + "_" + Integer.toString(0);

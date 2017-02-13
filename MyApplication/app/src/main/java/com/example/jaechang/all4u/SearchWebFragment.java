@@ -22,7 +22,7 @@ public class SearchWebFragment extends Fragment {
 
         WebView webView = (WebView)view.findViewById(R.id.worknetView);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("http://www.work.go.kr/consltJobCarpa/popup/jobPsyExamLogin.do?url=/consltJobCarpa/jobPsyExamNew/popup/youth/popUnivMajorIntrstExam.do&wid=980&hei=745");
+        webView.loadUrl("http://www.work.go.kr/consltJobCarpa/popup/jobPsyExamLogin.do?url=/consltJobCarpa/jobPsyExamNew/popup/youth/popUnivMajorIntrstExam.do");
 
         return view;
     }

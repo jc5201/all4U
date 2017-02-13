@@ -56,6 +56,7 @@ public class IntroduceMainFragment extends Fragment {
 
             ImageButton mainImageButton = new ImageButton(getActivity());
             mainImageButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            mainImageButton.setBackgroundColor(Color.WHITE);
             mainImageButton.setAdjustViewBounds(true);
             mainImageButton.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             String uri = "@drawable/" + dbHelper.getContentsPath(departmentList.get(i)) + "_" + Integer.toString(0);
@@ -66,7 +67,12 @@ public class IntroduceMainFragment extends Fragment {
                 int i;
                 @Override
                 public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), IntroduceArticleActivity.class);
+                    intent.putExtra("depart", departmentList.get(i));
+                    startActivity(intent);
+
                     //컨텐츠 표시하도록 이동
+                    /*
                     FragmentTransaction fragT = getFragmentManager().beginTransaction();
                     Fragment fragment = Fragment.instantiate(getActivity(), IntroduceArticleFragment.class.getName());
                     Bundle bundle = new Bundle(1);
@@ -75,7 +81,7 @@ public class IntroduceMainFragment extends Fragment {
                     fragT.add(android.R.id.content, fragment, "article");
                     fragT.addToBackStack(null);
                     fragT.commit();
-
+                    */
                 }
                 public View.OnClickListener init(int i){
                     this.i=i;

@@ -28,7 +28,7 @@ public class IntroduceArticleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_introduce_article, container, false);
-        view.setBackgroundColor(Color.WHITE);
+        view.setBackgroundColor(Color.DKGRAY);
 
         depart = getArguments().getString("depart");
         create();
