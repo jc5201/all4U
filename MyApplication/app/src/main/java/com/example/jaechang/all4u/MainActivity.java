@@ -83,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
                 case "2":
                     getSupportActionBar().setTitle("나에게 맞는 학과 찾기");
                     break;
+                case "5":
+                    getSupportActionBar().setTitle("마이페이지");
+                    break;
             }
         }
 

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.Space;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,7 @@ public class IntroduceMainFragment extends Fragment {
     private void LoadDB(){
         DBHelper dbHelper = new DBHelper(getActivity());
         departmentList = dbHelper.getDepartment();
+        dbHelper.close();
     }
 
     private void setArticle(View view){
@@ -61,7 +64,7 @@ public class IntroduceMainFragment extends Fragment {
             mainImageButton.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             String uri = "@drawable/" + dbHelper.getContentsPath(departmentList.get(i)) + "_" + Integer.toString(0);
             int imageResource = getActivity().getResources().getIdentifier(uri, "drawabale", getActivity().getPackageName());
-            mainImageButton.setImageDrawable(getActivity().getResources().getDrawable(imageResource));
+            mainImageButton.setImageDrawable(getActivity().getDrawable(imageResource));
 
             mainImageButton.setOnClickListener(new View.OnClickListener() {
                 int i;
@@ -91,8 +94,21 @@ public class IntroduceMainFragment extends Fragment {
 
             linearLayout.addView(mainImageButton);
 
+            LinearLayout horizontal = new LinearLayout(getActivity());
+            horizontal.setOrientation(LinearLayout.HORIZONTAL);
+
+            TextView departText = new TextView(getActivity());
+            departText.setText(departmentList.get(i));
+            departText.setTextSize(25);
+
+            horizontal.addView(departText);
+
+            Space space = new Space(getActivity());
+            space.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT, 1));
+            horizontal.addView(space);
+
             ImageButton likeImageButton = new ImageButton(getActivity());
-            likeImageButton.setLayoutParams(new FrameLayout.LayoutParams(200, ViewGroup.LayoutParams.MATCH_PARENT));
+            likeImageButton.setLayoutParams(new LinearLayout.LayoutParams(200, ViewGroup.LayoutParams.MATCH_PARENT));
             likeImageButton.setTag(i);
             likeImageButton.setBackgroundColor(Color.WHITE);
             if(userDBHelper.isLiked(departmentList.get(i)))
@@ -105,11 +121,13 @@ public class IntroduceMainFragment extends Fragment {
                 ImageButton likeImageButton;
                 @Override
                 public void onClick(View v) {
+                    UserDBHelper userDBHelper = new UserDBHelper(getActivity());
                     userDBHelper.setLike(departmentList.get(i));
                     if(userDBHelper.isLiked(departmentList.get(i)))
                         likeImageButton.setImageResource(R.drawable.ic_like_light);
                     else
                         likeImageButton.setImageResource(R.drawable.ic_like);
+                    userDBHelper.close();
                 }
 
                 public View.OnClickListener init(int i, ImageButton likeImageButton){
@@ -119,10 +137,19 @@ public class IntroduceMainFragment extends Fragment {
                 }
             }.init(i, likeImageButton));
 
-            linearLayout.addView(likeImageButton);
+            horizontal.addView(likeImageButton);
+            linearLayout.addView(horizontal);
             layout.addView(linearLayout);
 
+            dbHelper.close();
+            userDBHelper.close();
 
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        System.gc();
     }
 }

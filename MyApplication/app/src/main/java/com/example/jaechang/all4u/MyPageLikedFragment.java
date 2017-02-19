@@ -1,5 +1,6 @@
 package com.example.jaechang.all4u;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -64,7 +65,12 @@ public class MyPageLikedFragment extends Fragment {
                 int i;
                 @Override
                 public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), IntroduceArticleActivity.class);
+                    intent.putExtra("depart", departmentList.get(i));
+                    startActivity(intent);
+
                     //컨텐츠 표시하도록 이동
+                    /*
                     FragmentTransaction fragT = getFragmentManager().beginTransaction();
                     Fragment fragment = Fragment.instantiate(getActivity(), IntroduceArticleFragment.class.getName());
                     Bundle bundle = new Bundle(1);
@@ -73,7 +79,7 @@ public class MyPageLikedFragment extends Fragment {
                     fragT.add(android.R.id.content, fragment, "article");
                     fragT.addToBackStack(null);
                     fragT.commit();
-
+                    */
                 }
                 public View.OnClickListener init(int i){
                     this.i=i;

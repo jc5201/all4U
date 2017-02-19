@@ -32,4 +32,10 @@ public class SearchMainFragment extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        System.gc();
+    }
 }

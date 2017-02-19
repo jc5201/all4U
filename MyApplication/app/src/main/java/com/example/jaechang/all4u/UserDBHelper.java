@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.util.Log;
 
 import java.io.File;
@@ -22,7 +23,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
     private static String TABLE_NAME = "USERTABLE";
     private static String TABLE_DEPT = "LIKETABLE";
 
-    private int version = 3;
+    private int version = 4;
     private final Context context;
 
     public UserDBHelper(Context context){
@@ -65,7 +66,8 @@ public class UserDBHelper extends SQLiteOpenHelper {
                 "'deptNum' INTEGER DEFAULT 0, " +
                 "'recomDept1' TEXT, " +
                 "'recomDept2' TEXT, " +
-                "'recomDept3' TEXT " +
+                "'recomDept3' TEXT, " +
+                "'bg_uri' TEXT DEFAULT '/unknown/din/f' " +
                 ")";
         checkDB.execSQL(query);
 
@@ -86,7 +88,9 @@ public class UserDBHelper extends SQLiteOpenHelper {
         String query = "SELECT name FROM " + TABLE_DEPT + " WHERE name = '" + dept +"';";
         SQLiteDatabase db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READWRITE);
         Cursor cursor = db.rawQuery(query, null);
-        if(cursor.getCount() > 0) return true;
+        boolean flag = cursor.getCount() > 0;
+        db.close();
+        if(flag) return true;
         else return false;
     }
 
@@ -99,6 +103,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
             query = "INSERT INTO "+ TABLE_DEPT + " (name) VALUES('" + dept+"');";
         SQLiteDatabase db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READWRITE);
         db.execSQL(query);
+        db.close();
     }
 
     public List<String> getDepartment(){
@@ -125,13 +130,33 @@ public class UserDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READWRITE);
         Cursor cursor = db.rawQuery(query, null);
         cursor.moveToNext();
-        return cursor.getString(0);
+        String result = cursor.getString(0);
+        db.close();
+        return result;
     }
 
     public void setName(String str){
         String query = "UPDATE " + TABLE_NAME + " SET name = '" + str +"';";
         SQLiteDatabase db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READWRITE);
         db.execSQL(query);
+        db.close();
+    }
+
+    public Uri getUri(){
+        String query = "SELECT bg_uri FROM " + TABLE_NAME + " ;";
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READWRITE);
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToNext();
+        Uri result = Uri.parse(cursor.getString(0));
+        db.close();
+        return result;
+    }
+
+    public void setUri(Uri uri){
+        String query = "UPDATE " + TABLE_NAME + " SET bg_uri = '" + uri.toString() +"';";
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READWRITE);
+        db.execSQL(query);
+        db.close();
     }
 
     @Override
