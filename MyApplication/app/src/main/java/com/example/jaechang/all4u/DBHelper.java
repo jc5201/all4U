@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 import android.util.Log;
+import android.util.Pair;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,6 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static String DB_PATH = "";
     private static String DB_NAME = "AllPoYou.db";
     private static String TABLE_NAME = "department";
+    private static String TABLE_HOLLAND = "holland";
 
     private static Boolean flag = false;
 
@@ -92,6 +94,25 @@ public class DBHelper extends SQLiteOpenHelper {
         return num;
     }
 
+    public List<Pair<String, String>> getHolland(){
+        List<Pair<String, String>> holland = new ArrayList<>();
+        try{
+            String query = "SELECT content, type FROM " + TABLE_HOLLAND + ";";
+            SQLiteDatabase db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READWRITE);
+            Cursor cursor = db.rawQuery(query, null);
+
+            while(cursor.moveToNext()){
+                String con = cursor.getString(0);
+                String type = cursor.getString(1);
+                holland.add(new Pair<String, String>(con, type));
+            }
+            db.close();
+        }catch (Exception e){
+            Log.d("DB", e.getMessage());
+        }
+
+        return holland;
+    }
 
 
     public void create(){

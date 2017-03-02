@@ -23,7 +23,7 @@ public class SearchMainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction fragT = getFragmentManager().beginTransaction();
-                android.support.v4.app.Fragment fragment = android.support.v4.app.Fragment.instantiate(getActivity(), SearchWebFragment.class.getName());
+                android.support.v4.app.Fragment fragment = android.support.v4.app.Fragment.instantiate(getActivity(), SearchHollandFragment.class.getName());
                 fragT.add(android.R.id.content, fragment, "article");
                 fragT.addToBackStack(null);
                 fragT.commit();
