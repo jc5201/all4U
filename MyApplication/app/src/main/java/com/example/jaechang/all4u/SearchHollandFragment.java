@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Pair;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -121,7 +122,15 @@ public class SearchHollandFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                FragmentTransaction fragT = getFragmentManager().beginTransaction();
+                Fragment fragment = Fragment.instantiate(getActivity(), SearchResultFragment.class.getName());
+                Bundle bundle = new Bundle(1);
+                int[] arg = {HollandR, HollandI, HollandA, HollandS, HollandE, HollandC};
+                bundle.putIntArray("Result", arg);
+                fragment.setArguments(bundle);
+                fragT.add(android.R.id.content, fragment, "article");
+                fragT.addToBackStack(null);
+                fragT.commit();
             }
         });
         layout.addView(button);
