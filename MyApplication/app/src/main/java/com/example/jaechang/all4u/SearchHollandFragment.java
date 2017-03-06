@@ -72,6 +72,7 @@ public class SearchHollandFragment extends Fragment {
             radioGroup.setTag(i);
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 boolean checked = false;
+                boolean[] listchecked = {false, };
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                     int i = (int)group.getTag();
@@ -80,33 +81,33 @@ public class SearchHollandFragment extends Fragment {
                     }
                     switch (questionList.get(i).second){
                         case "A":
-                            if(checkedId == 2000 + 1) HollandA++;
-                            else HollandA--;
+                            if(checkedId == 2000 + 1) {HollandA++; listchecked[i] = true;}
+                            else {if(listchecked[i])HollandA--; listchecked[i] = false;}
                             if(checked == false) checked = true;
                             break;
                         case "R":
-                            if(checkedId == 2000 + 1) HollandR++;
-                            else HollandR--;
+                            if(checkedId == 2000 + 1) {HollandR++; listchecked[i] = true;}
+                            else {if(listchecked[i])HollandR--; listchecked[i] = false;}
                             if(checked == false) checked = true;
                             break;
                         case "I":
-                            if(checkedId == 2000 + 1) HollandI++;
-                            else HollandI--;
+                            if(checkedId == 2000 + 1) {HollandI++; listchecked[i] = true;}
+                            else {if(listchecked[i])HollandI--; listchecked[i] = false;}
                             if(checked == false) checked = true;
                             break;
                         case "S":
-                            if(checkedId == 2000 + 1) HollandS++;
-                            else HollandS--;
+                            if(checkedId == 2000 + 1) {HollandS++; listchecked[i] = true;}
+                            else {if(listchecked[i])HollandS--; listchecked[i] = false;}
                             if(checked == false) checked = true;
                             break;
                         case "E":
-                            if(checkedId == 2000 + 1) HollandE++;
-                            else HollandE--;
+                            if(checkedId == 2000 + 1) {HollandE++; listchecked[i] = true;}
+                            else {if(listchecked[i])HollandE--; listchecked[i] = false;}
                             if(checked == false) checked = true;
                             break;
                         case "C":
-                            if(checkedId == 2000 + 1) HollandC++;
-                            else HollandC--;
+                            if(checkedId == 2000 + 1) {HollandC++; listchecked[i] = true;}
+                            else {if(listchecked[i])HollandC--; listchecked[i] = false;}
                             if(checked == false) checked = true;
                             break;
                     }
